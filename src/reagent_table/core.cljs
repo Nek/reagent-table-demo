@@ -6,11 +6,11 @@
 (defn next-id [] (swap! counter inc) @counter)
 
 (defonce state
-         (r/atom (hash-map (next-id) "one" (next-id) "two" (next-id) "three")))
+         (r/atom (sorted-map (next-id) "one" (next-id) "two" (next-id) "three")))
 
 (defn update-row [id v] (swap! state assoc id v))
 
-(defn add-row [] (swap! state assoc (next-id) "new row"))
+(defn add-row [] (let [id (next-id)] (swap! state assoc id (str "new row " id))))
 
 (defn remove-row [id] (swap! state dissoc id))
 
